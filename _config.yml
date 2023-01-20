@@ -13,7 +13,7 @@ name                     : &name "Lara di Cavalcanti Pontes"
 description              : &description "Computer Engineering undergraduate at UFPB"
 url                      : https://larapontes.github.io # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
 baseurl                  : "" # the subpath of your site, e.g. "/blog"
-repository               : "laradicp.github.io"
+repository               : "larapontes.github.io"
 teaser                   :  # filename of teaser fallback teaser image placed in /images/, .e.g. "500x300.png"
 breadcrumbs              : false # true, false (default)
 words_per_minute         : 160
@@ -87,7 +87,7 @@ author:
   employer         :
   pubmed           : 
   googlescholar    : 
-  email            : "laradicp"
+  email            : "larapontes@eng.ci.ufpb.br"
   researchgate     :  # example: "https://www.researchgate.net/profile/yourprofile"
   uri              :
   bitbucket        :
@@ -96,7 +96,7 @@ author:
   flickr           :
   facebook         :
   foursquare       :
-  github           : "larapontes@eng.ci.ufpb.br"
+  github           : "laradicp"
   google_plus      :
   keybase          :
   instagram        :
