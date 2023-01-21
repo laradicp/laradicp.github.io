@@ -10,4 +10,4 @@ main:
     url: /personal/
 
   - title: "Resume"
-    url: ../files/resume.pdf/
+    url: https://laradicp.github.io/files/resume.pdf
