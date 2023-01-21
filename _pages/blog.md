@@ -6,14 +6,7 @@ redirect_from:
   - /blog.html
 ---
 
-::: {.row}
-  ::: {.column width="175"}
-    <img src="../images/enic.png" width="150"/>
-  :::
-  ::: {.column width="500"}
-    [Young Researcher award recipients of 2022](http://www.ccen.ufpb.br/ccen/contents/noticias/trabalhos-premiados-do-xxx-encontro-de-iniciacao-cientifica-via-propesq-ccen-ufpb)
-  :::
-:::
+<img src="../images/enic.png" width="150"/> [Young Researcher award recipients of 2022](http://www.ccen.ufpb.br/ccen/contents/noticias/trabalhos-premiados-do-xxx-encontro-de-iniciacao-cientifica-via-propesq-ccen-ufpb)
 
 ---
 
