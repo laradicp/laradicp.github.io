@@ -15,11 +15,11 @@ I have been interested in subjects such as mathematics, arts, reading and writin
 Some of my hobbies include drawing, dancing, playing board games, watching TV series, and reading. Besides that, I take care of my fish tank, which is currently home for only one fish. His name is Pincel (the Portuguese for "brush"), since he is a Betta fish and looks like a red makeup brush.
 
 <figure>
-<img src="../images/pincel.jpg" width="200"/>
+<img src="../images/pincel.jpg" style="width:70%"/>
 <figcaption><b>Fig. 1 - Pincel</b></figcaption>
 </figure>
 
 <figure>
-<img src="../images/tank.jpg" width="200"/>
-<figcaption><b>Fig. 2 - Fish Tank</b></figcaption>
+<img src="../images/tank.jpg" style="width:70%"/>
+<figcaption><b>Fig. 2 - Fish tank</b></figcaption>
 </figure>

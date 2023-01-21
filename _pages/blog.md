@@ -12,7 +12,7 @@ redirect_from:
 
 ---
 
-<img src="../images/techfellow.png" width="150"/>&nbsp;&nbsp;&nbsp;&nbsp;[Selected candidates for Fundação Estudar tech fellowship program](https://www.opovo.com.br/noticias/tecnologia/opovotecnologia/2022/09/10291358-fundacao-estudar-anuncia-agraciados-de-programa-focado-em-tecnologia.html)
+<img src="../images/techfellow.png" width="150"/>&nbsp;&nbsp;&nbsp;&nbsp;[Selected candidates for Fundação Estudar Tech Fellowship program](https://www.opovo.com.br/noticias/tecnologia/opovotecnologia/2022/09/10291358-fundacao-estudar-anuncia-agraciados-de-programa-focado-em-tecnologia.html)
 
 ---
 
