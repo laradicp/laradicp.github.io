@@ -1,6 +1,6 @@
 ---
 title: "Scheduling with cadence constraints"
-excerpt: "<a href="https://www.freepik.com/free-photo/minsk-belarus-dec-15-2021-car-bodies-are-assembly-line-factory-production-cars-modern-automotive-industry-electric-car-factory-conveyor_26151366.htm#query=car%20assembly%20line&position=46&from_view=keyword">Image by usertrmk</a> on Freepik 1<br/><img src='/images/assembly-line.jpg'>"
+excerpt: "<img src='/images/assembly-line.jpg'>"
 collection: portfolio
 ---
 
