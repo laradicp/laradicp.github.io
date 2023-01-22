@@ -1,6 +1,6 @@
 ---
 title: "Scheduling with cadence constraints"
-excerpt: "<img src='/images/assembly-line.jpg'>"
+excerpt: "Optimization of an automotive company assembly line, in which the cars with more demanding features cannot be scheduled in close proximity to each other."
 collection: portfolio
 ---
 

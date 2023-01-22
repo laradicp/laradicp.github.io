@@ -1,6 +1,6 @@
 ---
 title: "Learning colors"
-excerpt: "<img src='/images/learning-colors.jpg'>"
+excerpt: "Game that teaches the colors to toddlers."
 collection: portfolio
 ---
 
