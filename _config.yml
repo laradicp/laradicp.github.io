@@ -181,10 +181,10 @@ collections:
   blog:
     output: true
     permalink: /:collection/:path/
-  personal:
+  resume:
     output: true
     permalink: /:collection/:path/
-  resume:
+  personal:
     output: true
     permalink: /:collection/:path/
 

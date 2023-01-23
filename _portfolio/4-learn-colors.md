@@ -1,6 +1,6 @@
 ---
 title: "Learning colors"
-excerpt: "Game that teaches the colors to toddlers."
+excerpt: "Project aimed at teaching the colors to toddlers through a game."
 collection: portfolio
 ---
 

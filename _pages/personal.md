@@ -6,7 +6,7 @@ redirect_from:
   - /personal.html
 ---
 
-I was born in João Pessoa, where the easternmost point of the continental Americas is located at. For that reason, it is also known as "the city where the sun rises first". Here, we have beautiful beaches, a hot weather, and great food.
+I am Brazilian, born in João Pessoa, where the easternmost point of the continental Americas is located at. For this reason, it is also known as "the city where the sun rises first". Here, we have beautiful beaches, a hot weather, and great food.
 
 Alongside my parents, I have three sisters and three nieces. Being surrounded by women, including really young ones, fuels my passion to work towards a fairer world for us, especially in tech.
 
