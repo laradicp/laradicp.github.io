@@ -8,7 +8,7 @@ redirect_from:
   - /about.html
 ---
 
-I am a Computer Engineering student at [Universidade Federal da Paraíba](https://www.ufpb.br/) (UFPB) and an undergraduate researcher at the Logistics & Optimization Group from the [Laboratory of Systems Engineering and Robotics](https://laser.ci.ufpb.br/). I am passionate about solving complex problems with real-life applications, therefore the fields of optimization and operations research (OR) are fascinating to me.
+I am a Computer Engineering student at [Universidade Federal da Paraíba](https://www.ufpb.br/) (UFPB) and an undergraduate researcher at the Logistics & Optimization Group from the [Laboratory of Systems Engineering and Robotics](https://laser.ci.ufpb.br/). I am passionate about solving complex problems with real-life applications, thus the fields of optimization and operations research (OR) are fascinating to me.
 
 My main research project, the assembly line scheduling of a multinational automotive company, was awarded the Best Undergraduate Work at the [Brazilian OR Conference](https://sbpo2021.galoa.com.br/) in 2021. Also, I am a Tech Fellow at [Fundação Estudar](https://www.estudar.org.br/), a merit scholarship to support the education of high-performing Brazilian students in tech.
 
