@@ -11,3 +11,6 @@ main:
   
   - title: "Personal"
     url: /personal/
+
+  - title: "Misc"
+    url: /misc/
