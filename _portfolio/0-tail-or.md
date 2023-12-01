@@ -1,6 +1,6 @@
 ---
-title: "TAIL-OR"
-excerpt: "Intelligent Bed Allocation Technology in Regional Operation (Tecnologia de Alocação Inteligente de Leitos em Operação Regional)"
+title: "ICU hospital beds distribution"
+excerpt: "Data-driven prescriptive approach to allocating Intensive Care Unit (ICU) hospital beds in Brazil's Federal District, especially during epidemics."
 collection: portfolio
 ---
 
