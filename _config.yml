@@ -10,7 +10,7 @@ locale                   : "en-US"
 title                    : "Lara Pontes"
 title_separator          : "-"
 name                     : &name "Lara di Cavalcanti Pontes"
-description              : &description "Computer Engineering undergraduate at UFPB"
+description              : &description "B.S. in Computer Engineering | Research Assistant at LOG UFPB"
 url                      : https://laradicp.github.io # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
 baseurl                  : "" # the subpath of your site, e.g. "/blog"
 repository               : "laradicp.github.io"
@@ -82,7 +82,7 @@ analytics:
 author:
   name             : "Lara di Cavalcanti Pontes"
   avatar           : "profile.jpg"
-  bio              : "Computer Engineering undergraduate at UFPB"
+  bio              : "B.S. in Computer Engineering | Research Assistant at LOG UFPB"
   location         : "João Pessoa, Paraíba"
   employer         :
   pubmed           : 
