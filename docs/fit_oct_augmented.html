@@ -7515,7 +7515,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-julia"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">CSV</span>
@@ -7583,7 +7583,17 @@ a.anchor-link {
 <span class="c">#    - Label:    column label_col_name</span>
 <span class="c"># ---------------------------------------------------------</span>
 
-<span class="n">feature_cols</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">c</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">common_cols</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">startswith</span><span class="p">(</span><span class="kt">String</span><span class="p">(</span><span class="n">c</span><span class="p">),</span><span class="w"> </span><span class="s">"inst_"</span><span class="p">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">startswith</span><span class="p">(</span><span class="kt">String</span><span class="p">(</span><span class="n">c</span><span class="p">),</span><span class="w"> </span><span class="s">"prompt_"</span><span class="p">)]</span>
+<span class="c"># Columns to exclude even if they match inst_ or prompt_</span>
+<span class="n">exclude</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">Set</span><span class="p">([</span><span class="s">"prompt_id"</span><span class="p">,</span><span class="w"> </span><span class="s">"instance_id"</span><span class="p">])</span>
+
+<span class="n">feature_cols</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="n">c</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">common_cols</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="p">(</span><span class="n">startswith</span><span class="p">(</span><span class="kt">String</span><span class="p">(</span><span class="n">c</span><span class="p">),</span><span class="w"> </span><span class="s">"inst_"</span><span class="p">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">startswith</span><span class="p">(</span><span class="kt">String</span><span class="p">(</span><span class="n">c</span><span class="p">),</span><span class="w"> </span><span class="s">"prompt_"</span><span class="p">))</span><span class="w"> </span><span class="o">&amp;&amp;</span>
+<span class="w">         </span><span class="o">!</span><span class="p">(</span><span class="n">c</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">exclude</span><span class="p">)</span><span class="w"> </span><span class="p">)</span>
+<span class="p">]</span>
+
+<span class="n">println</span><span class="p">(</span><span class="s">"Feature columns used ("</span><span class="p">,</span><span class="w"> </span><span class="n">length</span><span class="p">(</span><span class="n">feature_cols</span><span class="p">),</span><span class="w"> </span><span class="s">"):"</span><span class="p">)</span>
+<span class="n">println</span><span class="p">(</span><span class="n">feature_cols</span><span class="p">)</span>
 
 <span class="k">if</span><span class="w"> </span><span class="n">isempty</span><span class="p">(</span><span class="n">feature_cols</span><span class="p">)</span>
 <span class="w">    </span><span class="n">error</span><span class="p">(</span><span class="s">"No feature columns found starting with 'inst_' or 'prompt_'. "</span><span class="w"> </span><span class="o">*</span>
@@ -7652,8 +7662,10 @@ Training columns:
 Loading test data...
 Test samples:     2241
 Number of columns common to train and test: 42
-Feature columns used (35):
-["prompt_id", "inst_n_numbers", "inst_range", "inst_std", "inst_count_small", "inst_count_large", "inst_count_duplicates", "inst_count_even", "inst_count_odd", "inst_count_div_2", "inst_count_div_3", "inst_count_div_5", "inst_count_div_7", "inst_count_primes", "inst_distance_simple", "inst_distance_max", "inst_distance_avg", "inst_easy_pairs", "inst_log_target", "inst_expr_depth", "inst_count_add", "inst_count_sub", "inst_count_mul", "inst_count_div", "inst_noncomm_ops", "prompt_paraphrasing", "prompt_role-specification", "prompt_reasoning-trigger", "prompt_chain-of-thought", "prompt_self-check", "prompt_conciseness", "prompt_verbosity", "prompt_context-expansion", "prompt_few-shot-count", "prompt_length"]
+Feature columns used (34):
+["inst_n_numbers", "inst_range", "inst_std", "inst_count_small", "inst_count_large", "inst_count_duplicates", "inst_count_even", "inst_count_odd", "inst_count_div_2", "inst_count_div_3", "inst_count_div_5", "inst_count_div_7", "inst_count_primes", "inst_distance_simple", "inst_distance_max", "inst_distance_avg", "inst_easy_pairs", "inst_log_target", "inst_expr_depth", "inst_count_add", "inst_count_sub", "inst_count_mul", "inst_count_div", "inst_noncomm_ops", "prompt_paraphrasing", "prompt_role-specification", "prompt_reasoning-trigger", "prompt_chain-of-thought", "prompt_self-check", "prompt_conciseness", "prompt_verbosity", "prompt_context-expansion", "prompt_few-shot-count", "prompt_length"]
+Feature columns used (34):
+["inst_n_numbers", "inst_range", "inst_std", "inst_count_small", "inst_count_large", "inst_count_duplicates", "inst_count_even", "inst_count_odd", "inst_count_div_2", "inst_count_div_3", "inst_count_div_5", "inst_count_div_7", "inst_count_primes", "inst_distance_simple", "inst_distance_max", "inst_distance_avg", "inst_easy_pairs", "inst_log_target", "inst_expr_depth", "inst_count_add", "inst_count_sub", "inst_count_mul", "inst_count_div", "inst_noncomm_ops", "prompt_paraphrasing", "prompt_role-specification", "prompt_reasoning-trigger", "prompt_chain-of-thought", "prompt_self-check", "prompt_conciseness", "prompt_verbosity", "prompt_context-expansion", "prompt_few-shot-count", "prompt_length"]
 Train size: 43445
 Test size:  2241
 
@@ -7672,7 +7684,7 @@ Fitting OptimalTreeClassifier grid search on full training set...
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output" data-mime-type="text/html" tabindex="0">
 <!DOCTYPE html>
 
-<html id="html-xizU0k7N" lang="en">
+<html id="html-UbU4Kdb3" lang="en">
 <head>
 <meta charset="utf-8"/>
 <title>Optimal Trees Visualization</title>
@@ -7863,7 +7875,7 @@ select {
 <style>
       html,
       body,
-      #treevis-xizU0k7N {
+      #treevis-UbU4Kdb3 {
           height: 500px;
       }
     </style>
@@ -7872,13 +7884,13 @@ select {
 <div class="parent">
 <div class="mainarea">
 <div class="button-row">
-<button id="collapse-xizU0k7N">Collapse</button>
-<button id="expand-xizU0k7N">Expand</button>
-<button id="savepng-xizU0k7N">Save PNG</button>
+<button id="collapse-UbU4Kdb3">Collapse</button>
+<button id="expand-UbU4Kdb3">Expand</button>
+<button id="savepng-UbU4Kdb3">Save PNG</button>
 </div>
 <div class="button-row">
 </div>
-<div id="treevis-xizU0k7N"></div>
+<div id="treevis-UbU4Kdb3"></div>
 </div>
 </div>
 <script>
@@ -8508,7 +8520,7 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           "split_type": "MIXED",
           "split_mixed": {
             "parallel_split": {
-              "feature": 2,
+              "feature": 1,
               "threshold": 3.5
             },
             "ordinal_split": {
@@ -8516,7 +8528,7 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
               "split": []
             },
             "categoric_split": {
-              "feature": 2,
+              "feature": 1,
               "split": [
                 false
               ]
@@ -8526,25 +8538,25 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           },
           "split_hyperplane": {
             "standardized_weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "threshold": 0.0,
             "weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "complexity": 0.0
           },
           "missingdatamode": "NONE",
-          "raw_error": 5374.431074764097,
+          "raw_error": 5446.9448958554085,
           "baseline_error": 20976.144734722064,
           "subtree_complexity": 31.0,
           "n_node_samples": 43445,
           "weighted_n_node_samples": 43445.0,
-          "orig_raw_error": 5374.431074764097,
+          "orig_raw_error": 5446.9448958554085,
           "orig_baseline_error": 20976.144734722064,
           "dirty": false,
           "fit": {
@@ -8563,13 +8575,13 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
             ],
             "logistic_fit": {
               "beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
               "offset": null,
               "standardized_beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
@@ -8587,7 +8599,7 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           "split_type": "MIXED",
           "split_mixed": {
             "parallel_split": {
-              "feature": 29,
+              "feature": 28,
               "threshold": 0.5
             },
             "ordinal_split": {
@@ -8595,7 +8607,7 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
               "split": []
             },
             "categoric_split": {
-              "feature": 29,
+              "feature": 28,
               "split": [
                 false
               ]
@@ -8605,25 +8617,25 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           },
           "split_hyperplane": {
             "standardized_weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "threshold": 0.0,
             "weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "complexity": 0.0
           },
           "missingdatamode": "NONE",
-          "raw_error": 2720.760874069809,
+          "raw_error": 2773.272663473036,
           "baseline_error": 8306.863700631538,
           "subtree_complexity": 15.0,
           "n_node_samples": 21218,
           "weighted_n_node_samples": 21218.0,
-          "orig_raw_error": 2720.760874069809,
+          "orig_raw_error": 2773.272663473036,
           "orig_baseline_error": 8306.863700631538,
           "dirty": false,
           "fit": {
@@ -8642,13 +8654,13 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
             ],
             "logistic_fit": {
               "beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
               "offset": null,
               "standardized_beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
@@ -8666,15 +8678,15 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           "split_type": "MIXED",
           "split_mixed": {
             "parallel_split": {
-              "feature": 32,
-              "threshold": 0.5
+              "feature": 34,
+              "threshold": 727.5
             },
             "ordinal_split": {
               "feature": 0,
               "split": []
             },
             "categoric_split": {
-              "feature": 32,
+              "feature": 34,
               "split": [
                 false
               ]
@@ -8684,25 +8696,25 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           },
           "split_hyperplane": {
             "standardized_weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "threshold": 0.0,
             "weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "complexity": 0.0
           },
           "missingdatamode": "NONE",
-          "raw_error": 2152.602231056756,
+          "raw_error": 2189.145400393908,
           "baseline_error": 3426.6728450068313,
           "subtree_complexity": 7.0,
           "n_node_samples": 16833,
           "weighted_n_node_samples": 16833.0,
-          "orig_raw_error": 2152.602231056756,
+          "orig_raw_error": 2189.145400393908,
           "orig_baseline_error": 3426.6728450068313,
           "dirty": false,
           "fit": {
@@ -8721,13 +8733,13 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
             ],
             "logistic_fit": {
               "beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
               "offset": null,
               "standardized_beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
@@ -8745,7 +8757,7 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           "split_type": "MIXED",
           "split_mixed": {
             "parallel_split": {
-              "feature": 28,
+              "feature": 27,
               "threshold": 0.5
             },
             "ordinal_split": {
@@ -8753,7 +8765,7 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
               "split": []
             },
             "categoric_split": {
-              "feature": 28,
+              "feature": 27,
               "split": [
                 false
               ]
@@ -8763,55 +8775,55 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           },
           "split_hyperplane": {
             "standardized_weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "threshold": 0.0,
             "weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "complexity": 0.0
           },
           "missingdatamode": "NONE",
-          "raw_error": 1165.3968685203631,
-          "baseline_error": 1275.3777808870855,
+          "raw_error": 1199.2411917314212,
+          "baseline_error": 1321.7134374779107,
           "subtree_complexity": 3.0,
-          "n_node_samples": 14294,
-          "weighted_n_node_samples": 14294.0,
-          "orig_raw_error": 1165.3968685203631,
-          "orig_baseline_error": 1275.3777808870855,
+          "n_node_samples": 14147,
+          "weighted_n_node_samples": 14147.0,
+          "orig_raw_error": 1199.2411917314212,
+          "orig_baseline_error": 1321.7134374779107,
           "dirty": false,
           "fit": {
             "class": 2,
             "weighted_probs": [
-              0.0468028543444802,
-              0.9531971456555198
+              0.049127023397186685,
+              0.9508729766028133
             ],
             "probs": [
-              0.0468028543444802,
-              0.9531971456555198
+              0.049127023397186685,
+              0.9508729766028133
             ],
             "sizes": [
-              669,
-              13625
+              695,
+              13452
             ],
             "logistic_fit": {
               "beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
               "offset": null,
               "standardized_beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
               "constant_offset": null,
-              "constant_error": 1275.3777808870855
+              "constant_error": 1321.7134374779107
             }
           }
         },
@@ -8824,7 +8836,7 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           "split_type": "MIXED",
           "split_mixed": {
             "parallel_split": {
-              "feature": 35,
+              "feature": 34,
               "threshold": 214.50000000000003
             },
             "ordinal_split": {
@@ -8832,7 +8844,7 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
               "split": []
             },
             "categoric_split": {
-              "feature": 35,
+              "feature": 34,
               "split": [
                 false
               ]
@@ -8842,55 +8854,55 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           },
           "split_hyperplane": {
             "standardized_weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "threshold": 0.0,
             "weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "complexity": 0.0
           },
           "missingdatamode": "NONE",
-          "raw_error": 507.89540516515297,
-          "baseline_error": 521.268382729977,
+          "raw_error": 475.27671541826055,
+          "baseline_error": 488.73942327931036,
           "subtree_complexity": 1.0,
-          "n_node_samples": 9751,
-          "weighted_n_node_samples": 9751.0,
-          "orig_raw_error": 507.89540516515297,
-          "orig_baseline_error": 521.268382729977,
+          "n_node_samples": 9502,
+          "weighted_n_node_samples": 9502.0,
+          "orig_raw_error": 475.27671541826055,
+          "orig_baseline_error": 488.73942327931036,
           "dirty": false,
           "fit": {
             "class": 2,
             "weighted_probs": [
-              0.027484360578402214,
-              0.9725156394215978
+              0.026415491475478847,
+              0.9735845085245212
             ],
             "probs": [
-              0.027484360578402214,
-              0.9725156394215978
+              0.026415491475478847,
+              0.9735845085245212
             ],
             "sizes": [
-              268,
-              9483
+              251,
+              9251
             ],
             "logistic_fit": {
               "beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
               "offset": null,
               "standardized_beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
               "constant_offset": null,
-              "constant_error": 521.268382729977
+              "constant_error": 488.73942327931036
             }
           }
         },
@@ -8921,13 +8933,13 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           },
           "split_hyperplane": {
             "standardized_weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "threshold": 0.0,
             "weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
@@ -8958,13 +8970,13 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
             ],
             "logistic_fit": {
               "beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
               "offset": null,
               "standardized_beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
@@ -9000,55 +9012,55 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           },
           "split_hyperplane": {
             "standardized_weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "threshold": 0.0,
             "weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "complexity": 0.0
           },
           "missingdatamode": "NONE",
-          "raw_error": 479.5083083909594,
-          "baseline_error": 479.5083083909594,
+          "raw_error": 446.889618644067,
+          "baseline_error": 446.889618644067,
           "subtree_complexity": 0.0,
-          "n_node_samples": 9689,
-          "weighted_n_node_samples": 9689.0,
-          "orig_raw_error": 479.5083083909594,
-          "orig_baseline_error": 479.5083083909594,
+          "n_node_samples": 9440,
+          "weighted_n_node_samples": 9440.0,
+          "orig_raw_error": 446.889618644067,
+          "orig_baseline_error": 446.889618644067,
           "dirty": true,
           "fit": {
             "class": 2,
             "weighted_probs": [
-              0.025389617091547117,
-              0.9746103829084529
+              0.024258474576271186,
+              0.9757415254237288
             ],
             "probs": [
-              0.025389617091547117,
-              0.9746103829084529
+              0.024258474576271186,
+              0.9757415254237288
             ],
             "sizes": [
-              246,
-              9443
+              229,
+              9211
             ],
             "logistic_fit": {
               "beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
               "offset": null,
               "standardized_beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
               "constant_offset": null,
-              "constant_error": 479.5083083909594
+              "constant_error": 446.889618644067
             }
           }
         },
@@ -9061,7 +9073,7 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           "split_type": "MIXED",
           "split_mixed": {
             "parallel_split": {
-              "feature": 23,
+              "feature": 22,
               "threshold": 0.5
             },
             "ordinal_split": {
@@ -9069,7 +9081,7 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
               "split": []
             },
             "categoric_split": {
-              "feature": 23,
+              "feature": 22,
               "split": [
                 false
               ]
@@ -9079,55 +9091,55 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           },
           "split_hyperplane": {
             "standardized_weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "threshold": 0.0,
             "weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "complexity": 0.0
           },
           "missingdatamode": "NONE",
-          "raw_error": 657.5014633552103,
-          "baseline_error": 731.2093330398416,
+          "raw_error": 723.9644763131605,
+          "baseline_error": 803.1190527448871,
           "subtree_complexity": 1.0,
-          "n_node_samples": 4543,
-          "weighted_n_node_samples": 4543.0,
-          "orig_raw_error": 657.5014633552103,
-          "orig_baseline_error": 731.2093330398416,
+          "n_node_samples": 4645,
+          "weighted_n_node_samples": 4645.0,
+          "orig_raw_error": 723.9644763131605,
+          "orig_baseline_error": 803.1190527448871,
           "dirty": false,
           "fit": {
             "class": 2,
             "weighted_probs": [
-              0.08826766453885097,
-              0.9117323354611491
+              0.09558665231431647,
+              0.9044133476856835
             ],
             "probs": [
-              0.08826766453885097,
-              0.9117323354611491
+              0.09558665231431647,
+              0.9044133476856835
             ],
             "sizes": [
-              401,
-              4142
+              444,
+              4201
             ],
             "logistic_fit": {
               "beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
               "offset": null,
               "standardized_beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
               "constant_offset": null,
-              "constant_error": 731.2093330398416
+              "constant_error": 803.1190527448871
             }
           }
         },
@@ -9158,55 +9170,55 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           },
           "split_hyperplane": {
             "standardized_weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "threshold": 0.0,
             "weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "complexity": 0.0
           },
           "missingdatamode": "NONE",
-          "raw_error": 370.31322806109256,
-          "baseline_error": 370.31322806109256,
+          "raw_error": 424.38006072874487,
+          "baseline_error": 424.38006072874487,
           "subtree_complexity": 0.0,
-          "n_node_samples": 3863,
-          "weighted_n_node_samples": 3863.0,
-          "orig_raw_error": 370.31322806109256,
-          "orig_baseline_error": 370.31322806109256,
+          "n_node_samples": 3952,
+          "weighted_n_node_samples": 3952.0,
+          "orig_raw_error": 424.38006072874487,
+          "orig_baseline_error": 424.38006072874487,
           "dirty": true,
           "fit": {
             "class": 2,
             "weighted_probs": [
-              0.050478902407455346,
-              0.9495210975925447
+              0.056933198380566805,
+              0.9430668016194332
             ],
             "probs": [
-              0.050478902407455346,
-              0.9495210975925447
+              0.056933198380566805,
+              0.9430668016194332
             ],
             "sizes": [
-              195,
-              3668
+              225,
+              3727
             ],
             "logistic_fit": {
               "beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
               "offset": null,
               "standardized_beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
               "constant_offset": null,
-              "constant_error": 370.31322806109256
+              "constant_error": 424.38006072874487
             }
           }
         },
@@ -9237,55 +9249,55 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           },
           "split_hyperplane": {
             "standardized_weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "threshold": 0.0,
             "weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "complexity": 0.0
           },
           "missingdatamode": "NONE",
-          "raw_error": 287.18823529411765,
-          "baseline_error": 287.18823529411765,
+          "raw_error": 299.5844155844156,
+          "baseline_error": 299.5844155844156,
           "subtree_complexity": 0.0,
-          "n_node_samples": 680,
-          "weighted_n_node_samples": 680.0,
-          "orig_raw_error": 287.18823529411765,
-          "orig_baseline_error": 287.18823529411765,
+          "n_node_samples": 693,
+          "weighted_n_node_samples": 693.0,
+          "orig_raw_error": 299.5844155844156,
+          "orig_baseline_error": 299.5844155844156,
           "dirty": true,
           "fit": {
             "class": 2,
             "weighted_probs": [
-              0.3029411764705882,
-              0.6970588235294117
+              0.31601731601731603,
+              0.683982683982684
             ],
             "probs": [
-              0.3029411764705882,
-              0.6970588235294117
+              0.31601731601731603,
+              0.683982683982684
             ],
             "sizes": [
-              206,
+              219,
               474
             ],
             "logistic_fit": {
               "beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
               "offset": null,
               "standardized_beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
               "constant_offset": null,
-              "constant_error": 287.18823529411765
+              "constant_error": 299.5844155844156
             }
           }
         },
@@ -9298,15 +9310,15 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           "split_type": "MIXED",
           "split_mixed": {
             "parallel_split": {
-              "feature": 35,
-              "threshold": 788.0000000000001
+              "feature": 31,
+              "threshold": 0.5
             },
             "ordinal_split": {
               "feature": 0,
               "split": []
             },
             "categoric_split": {
-              "feature": 35,
+              "feature": 31,
               "split": [
                 false
               ]
@@ -9316,55 +9328,55 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           },
           "split_hyperplane": {
             "standardized_weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "threshold": 0.0,
             "weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "complexity": 0.0
           },
           "missingdatamode": "NONE",
-          "raw_error": 987.2053625363931,
-          "baseline_error": 1269.4950768018905,
+          "raw_error": 989.9042086624866,
+          "baseline_error": 1335.253164556962,
           "subtree_complexity": 3.0,
-          "n_node_samples": 2539,
-          "weighted_n_node_samples": 2539.0,
-          "orig_raw_error": 987.2053625363931,
-          "orig_baseline_error": 1269.4950768018905,
+          "n_node_samples": 2686,
+          "weighted_n_node_samples": 2686.0,
+          "orig_raw_error": 989.9042086624866,
+          "orig_baseline_error": 1335.253164556962,
           "dirty": false,
           "fit": {
             "class": 2,
             "weighted_probs": [
-              0.4990153603781016,
-              0.5009846396218984
+              0.4620253164556962,
+              0.5379746835443038
             ],
             "probs": [
-              0.4990153603781016,
-              0.5009846396218984
+              0.4620253164556962,
+              0.5379746835443038
             ],
             "sizes": [
-              1267,
-              1272
+              1241,
+              1445
             ],
             "logistic_fit": {
               "beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
               "offset": null,
               "standardized_beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
               "constant_offset": null,
-              "constant_error": 1269.4950768018905
+              "constant_error": 1335.253164556962
             }
           }
         },
@@ -9377,7 +9389,7 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           "split_type": "MIXED",
           "split_mixed": {
             "parallel_split": {
-              "feature": 21,
+              "feature": 22,
               "threshold": 0.5
             },
             "ordinal_split": {
@@ -9385,7 +9397,7 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
               "split": []
             },
             "categoric_split": {
-              "feature": 21,
+              "feature": 22,
               "split": [
                 false
               ]
@@ -9395,55 +9407,55 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           },
           "split_hyperplane": {
             "standardized_weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "threshold": 0.0,
             "weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "complexity": 0.0
           },
           "missingdatamode": "NONE",
-          "raw_error": 230.52434156189778,
-          "baseline_error": 266.73359073359075,
+          "raw_error": 84.85079634570295,
+          "baseline_error": 90.31679999999994,
           "subtree_complexity": 1.0,
-          "n_node_samples": 777,
-          "weighted_n_node_samples": 777.0,
-          "orig_raw_error": 230.52434156189778,
-          "orig_baseline_error": 266.73359073359075,
+          "n_node_samples": 625,
+          "weighted_n_node_samples": 625.0,
+          "orig_raw_error": 84.85079634570295,
+          "orig_baseline_error": 90.31679999999994,
           "dirty": false,
           "fit": {
             "class": 2,
             "weighted_probs": [
-              0.22007722007722008,
-              0.7799227799227799
+              0.0784,
+              0.9216
             ],
             "probs": [
-              0.22007722007722008,
-              0.7799227799227799
+              0.0784,
+              0.9216
             ],
             "sizes": [
-              171,
-              606
+              49,
+              576
             ],
             "logistic_fit": {
               "beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
               "offset": null,
               "standardized_beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
               "constant_offset": null,
-              "constant_error": 266.73359073359075
+              "constant_error": 90.31679999999994
             }
           }
         },
@@ -9474,55 +9486,55 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           },
           "split_hyperplane": {
             "standardized_weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "threshold": 0.0,
             "weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "complexity": 0.0
           },
           "missingdatamode": "NONE",
-          "raw_error": 67.27941176470588,
-          "baseline_error": 67.27941176470588,
+          "raw_error": 51.25939849624058,
+          "baseline_error": 51.25939849624058,
           "subtree_complexity": 0.0,
-          "n_node_samples": 136,
-          "weighted_n_node_samples": 136.0,
-          "orig_raw_error": 67.27941176470588,
-          "orig_baseline_error": 67.27941176470588,
+          "n_node_samples": 532,
+          "weighted_n_node_samples": 532.0,
+          "orig_raw_error": 51.25939849624058,
+          "orig_baseline_error": 51.25939849624058,
           "dirty": true,
           "fit": {
-            "class": 1,
+            "class": 2,
             "weighted_probs": [
-              0.5514705882352942,
-              0.4485294117647059
+              0.05075187969924812,
+              0.9492481203007519
             ],
             "probs": [
-              0.5514705882352942,
-              0.4485294117647059
+              0.05075187969924812,
+              0.9492481203007519
             ],
             "sizes": [
-              75,
-              61
+              27,
+              505
             ],
             "logistic_fit": {
               "beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
               "offset": null,
               "standardized_beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
               "constant_offset": null,
-              "constant_error": 67.27941176470588
+              "constant_error": 51.25939849624058
             }
           }
         },
@@ -9553,55 +9565,55 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           },
           "split_hyperplane": {
             "standardized_weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "threshold": 0.0,
             "weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "complexity": 0.0
           },
           "missingdatamode": "NONE",
-          "raw_error": 163.2449297971919,
-          "baseline_error": 163.2449297971919,
+          "raw_error": 33.59139784946237,
+          "baseline_error": 33.59139784946237,
           "subtree_complexity": 0.0,
-          "n_node_samples": 641,
-          "weighted_n_node_samples": 641.0,
-          "orig_raw_error": 163.2449297971919,
-          "orig_baseline_error": 163.2449297971919,
+          "n_node_samples": 93,
+          "weighted_n_node_samples": 93.0,
+          "orig_raw_error": 33.59139784946237,
+          "orig_baseline_error": 33.59139784946237,
           "dirty": true,
           "fit": {
             "class": 2,
             "weighted_probs": [
-              0.1497659906396256,
-              0.8502340093603744
+              0.23655913978494625,
+              0.7634408602150538
             ],
             "probs": [
-              0.1497659906396256,
-              0.8502340093603744
+              0.23655913978494625,
+              0.7634408602150538
             ],
             "sizes": [
-              96,
-              545
+              22,
+              71
             ],
             "logistic_fit": {
               "beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
               "offset": null,
               "standardized_beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
               "constant_offset": null,
-              "constant_error": 163.2449297971919
+              "constant_error": 33.59139784946237
             }
           }
         },
@@ -9614,7 +9626,7 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           "split_type": "MIXED",
           "split_mixed": {
             "parallel_split": {
-              "feature": 21,
+              "feature": 20,
               "threshold": 0.5
             },
             "ordinal_split": {
@@ -9622,7 +9634,7 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
               "split": []
             },
             "categoric_split": {
-              "feature": 21,
+              "feature": 20,
               "split": [
                 false
               ]
@@ -9632,55 +9644,55 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           },
           "split_hyperplane": {
             "standardized_weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "threshold": 0.0,
             "weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "complexity": 0.0
           },
           "missingdatamode": "NONE",
-          "raw_error": 756.6810209744953,
-          "baseline_error": 828.5312145289444,
+          "raw_error": 905.0534123167836,
+          "baseline_error": 1005.1897137311985,
           "subtree_complexity": 1.0,
-          "n_node_samples": 1762,
-          "weighted_n_node_samples": 1762.0,
-          "orig_raw_error": 756.6810209744953,
-          "orig_baseline_error": 828.5312145289444,
+          "n_node_samples": 2061,
+          "weighted_n_node_samples": 2061.0,
+          "orig_raw_error": 905.0534123167836,
+          "orig_baseline_error": 1005.1897137311985,
           "dirty": false,
           "fit": {
             "class": 1,
             "weighted_probs": [
-              0.6220204313280363,
-              0.3779795686719637
+              0.5783600194080544,
+              0.4216399805919457
             ],
             "probs": [
-              0.6220204313280363,
-              0.3779795686719637
+              0.5783600194080544,
+              0.4216399805919457
             ],
             "sizes": [
-              1096,
-              666
+              1192,
+              869
             ],
             "logistic_fit": {
               "beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
               "offset": null,
               "standardized_beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
               "constant_offset": null,
-              "constant_error": 828.5312145289444
+              "constant_error": 1005.1897137311985
             }
           }
         },
@@ -9711,55 +9723,55 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           },
           "split_hyperplane": {
             "standardized_weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "threshold": 0.0,
             "weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "complexity": 0.0
           },
           "missingdatamode": "NONE",
-          "raw_error": 64.8986301369863,
-          "baseline_error": 64.8986301369863,
+          "raw_error": 85.05463182897864,
+          "baseline_error": 85.05463182897864,
           "subtree_complexity": 0.0,
-          "n_node_samples": 365,
-          "weighted_n_node_samples": 365.0,
-          "orig_raw_error": 64.8986301369863,
-          "orig_baseline_error": 64.8986301369863,
+          "n_node_samples": 421,
+          "weighted_n_node_samples": 421.0,
+          "orig_raw_error": 85.05463182897864,
+          "orig_baseline_error": 85.05463182897864,
           "dirty": true,
           "fit": {
             "class": 1,
             "weighted_probs": [
-              0.9013698630136986,
-              0.09863013698630137
+              0.8859857482185273,
+              0.11401425178147269
             ],
             "probs": [
-              0.9013698630136986,
-              0.09863013698630137
+              0.8859857482185273,
+              0.11401425178147269
             ],
             "sizes": [
-              329,
-              36
+              373,
+              48
             ],
             "logistic_fit": {
               "beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
               "offset": null,
               "standardized_beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
               "constant_offset": null,
-              "constant_error": 64.8986301369863
+              "constant_error": 85.05463182897864
             }
           }
         },
@@ -9790,55 +9802,55 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           },
           "split_hyperplane": {
             "standardized_weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "threshold": 0.0,
             "weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "complexity": 0.0
           },
           "missingdatamode": "NONE",
-          "raw_error": 691.782390837509,
-          "baseline_error": 691.782390837509,
+          "raw_error": 819.9987804878049,
+          "baseline_error": 819.9987804878049,
           "subtree_complexity": 0.0,
-          "n_node_samples": 1397,
-          "weighted_n_node_samples": 1397.0,
-          "orig_raw_error": 691.782390837509,
-          "orig_baseline_error": 691.782390837509,
+          "n_node_samples": 1640,
+          "weighted_n_node_samples": 1640.0,
+          "orig_raw_error": 819.9987804878049,
+          "orig_baseline_error": 819.9987804878049,
           "dirty": true,
           "fit": {
-            "class": 1,
+            "class": 2,
             "weighted_probs": [
-              0.5490336435218325,
-              0.4509663564781675
+              0.499390243902439,
+              0.500609756097561
             ],
             "probs": [
-              0.5490336435218325,
-              0.4509663564781675
+              0.499390243902439,
+              0.500609756097561
             ],
             "sizes": [
-              767,
-              630
+              819,
+              821
             ],
             "logistic_fit": {
               "beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
               "offset": null,
               "standardized_beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
               "constant_offset": null,
-              "constant_error": 691.782390837509
+              "constant_error": 819.9987804878049
             }
           }
         },
@@ -9851,7 +9863,7 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           "split_type": "MIXED",
           "split_mixed": {
             "parallel_split": {
-              "feature": 32,
+              "feature": 31,
               "threshold": 0.5
             },
             "ordinal_split": {
@@ -9859,7 +9871,7 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
               "split": []
             },
             "categoric_split": {
-              "feature": 32,
+              "feature": 31,
               "split": [
                 false
               ]
@@ -9869,25 +9881,25 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           },
           "split_hyperplane": {
             "standardized_weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "threshold": 0.0,
             "weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "complexity": 0.0
           },
           "missingdatamode": "NONE",
-          "raw_error": 568.158643013053,
+          "raw_error": 584.127263079128,
           "baseline_error": 1112.9185860889397,
           "subtree_complexity": 7.0,
           "n_node_samples": 4385,
           "weighted_n_node_samples": 4385.0,
-          "orig_raw_error": 568.158643013053,
+          "orig_raw_error": 584.127263079128,
           "orig_baseline_error": 1112.9185860889397,
           "dirty": false,
           "fit": {
@@ -9906,13 +9918,13 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
             ],
             "logistic_fit": {
               "beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
               "offset": null,
               "standardized_beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
@@ -9930,7 +9942,7 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           "split_type": "MIXED",
           "split_mixed": {
             "parallel_split": {
-              "feature": 22,
+              "feature": 21,
               "threshold": 0.5
             },
             "ordinal_split": {
@@ -9938,7 +9950,7 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
               "split": []
             },
             "categoric_split": {
-              "feature": 22,
+              "feature": 21,
               "split": [
                 false
               ]
@@ -9948,25 +9960,25 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           },
           "split_hyperplane": {
             "standardized_weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "threshold": 0.0,
             "weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "complexity": 0.0
           },
           "missingdatamode": "NONE",
-          "raw_error": 340.98759676765394,
+          "raw_error": 341.99891658200147,
           "baseline_error": 469.68532206969377,
           "subtree_complexity": 3.0,
           "n_node_samples": 947,
           "weighted_n_node_samples": 947.0,
-          "orig_raw_error": 340.98759676765394,
+          "orig_raw_error": 341.99891658200147,
           "orig_baseline_error": 469.68532206969377,
           "dirty": false,
           "fit": {
@@ -9985,13 +9997,13 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
             ],
             "logistic_fit": {
               "beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
               "offset": null,
               "standardized_beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
@@ -10009,15 +10021,15 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           "split_type": "MIXED",
           "split_mixed": {
             "parallel_split": {
-              "feature": 35,
-              "threshold": 1041.5
+              "feature": 34,
+              "threshold": 631.5
             },
             "ordinal_split": {
               "feature": 0,
               "split": []
             },
             "categoric_split": {
-              "feature": 35,
+              "feature": 34,
               "split": [
                 false
               ]
@@ -10027,25 +10039,25 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           },
           "split_hyperplane": {
             "standardized_weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "threshold": 0.0,
             "weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "complexity": 0.0
           },
           "missingdatamode": "NONE",
-          "raw_error": 31.61379310344828,
+          "raw_error": 32.625112917795846,
           "baseline_error": 36.120000000000005,
           "subtree_complexity": 1.0,
           "n_node_samples": 150,
           "weighted_n_node_samples": 150.0,
-          "orig_raw_error": 31.61379310344828,
+          "orig_raw_error": 32.625112917795846,
           "orig_baseline_error": 36.120000000000005,
           "dirty": false,
           "fit": {
@@ -10064,13 +10076,13 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
             ],
             "logistic_fit": {
               "beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
               "offset": null,
               "standardized_beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
@@ -10106,55 +10118,55 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           },
           "split_hyperplane": {
             "standardized_weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "threshold": 0.0,
             "weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "complexity": 0.0
           },
           "missingdatamode": "NONE",
-          "raw_error": 30.01379310344828,
-          "baseline_error": 30.01379310344828,
+          "raw_error": 12.592592592592593,
+          "baseline_error": 12.592592592592593,
           "subtree_complexity": 0.0,
-          "n_node_samples": 145,
-          "weighted_n_node_samples": 145.0,
-          "orig_raw_error": 30.01379310344828,
-          "orig_baseline_error": 30.01379310344828,
+          "n_node_samples": 27,
+          "weighted_n_node_samples": 27.0,
+          "orig_raw_error": 12.592592592592593,
+          "orig_baseline_error": 12.592592592592593,
           "dirty": true,
           "fit": {
             "class": 1,
             "weighted_probs": [
-              0.8827586206896552,
-              0.11724137931034483
+              0.6296296296296297,
+              0.37037037037037035
             ],
             "probs": [
-              0.8827586206896552,
-              0.11724137931034483
+              0.6296296296296297,
+              0.37037037037037035
             ],
             "sizes": [
-              128,
-              17
+              17,
+              10
             ],
             "logistic_fit": {
               "beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
               "offset": null,
               "standardized_beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
               "constant_offset": null,
-              "constant_error": 30.01379310344828
+              "constant_error": 12.592592592592593
             }
           }
         },
@@ -10185,55 +10197,55 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           },
           "split_hyperplane": {
             "standardized_weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "threshold": 0.0,
             "weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "complexity": 0.0
           },
           "missingdatamode": "NONE",
-          "raw_error": 1.6,
-          "baseline_error": 1.6,
+          "raw_error": 20.03252032520325,
+          "baseline_error": 20.03252032520325,
           "subtree_complexity": 0.0,
-          "n_node_samples": 5,
-          "weighted_n_node_samples": 5.0,
-          "orig_raw_error": 1.6,
-          "orig_baseline_error": 1.6,
+          "n_node_samples": 123,
+          "weighted_n_node_samples": 123.0,
+          "orig_raw_error": 20.03252032520325,
+          "orig_baseline_error": 20.03252032520325,
           "dirty": true,
           "fit": {
-            "class": 2,
+            "class": 1,
             "weighted_probs": [
-              0.2,
-              0.8
+              0.9105691056910569,
+              0.08943089430894309
             ],
             "probs": [
-              0.2,
-              0.8
+              0.9105691056910569,
+              0.08943089430894309
             ],
             "sizes": [
-              1,
-              4
+              112,
+              11
             ],
             "logistic_fit": {
               "beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
               "offset": null,
               "standardized_beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
               "constant_offset": null,
-              "constant_error": 1.6
+              "constant_error": 20.03252032520325
             }
           }
         },
@@ -10246,7 +10258,7 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           "split_type": "MIXED",
           "split_mixed": {
             "parallel_split": {
-              "feature": 21,
+              "feature": 20,
               "threshold": 0.5
             },
             "ordinal_split": {
@@ -10254,7 +10266,7 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
               "split": []
             },
             "categoric_split": {
-              "feature": 21,
+              "feature": 20,
               "split": [
                 false
               ]
@@ -10264,13 +10276,13 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           },
           "split_hyperplane": {
             "standardized_weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "threshold": 0.0,
             "weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
@@ -10301,13 +10313,13 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
             ],
             "logistic_fit": {
               "beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
               "offset": null,
               "standardized_beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
@@ -10343,13 +10355,13 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           },
           "split_hyperplane": {
             "standardized_weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "threshold": 0.0,
             "weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
@@ -10380,13 +10392,13 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
             ],
             "logistic_fit": {
               "beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
               "offset": null,
               "standardized_beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
@@ -10422,13 +10434,13 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           },
           "split_hyperplane": {
             "standardized_weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "threshold": 0.0,
             "weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
@@ -10459,13 +10471,13 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
             ],
             "logistic_fit": {
               "beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
               "offset": null,
               "standardized_beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
@@ -10483,15 +10495,15 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           "split_type": "MIXED",
           "split_mixed": {
             "parallel_split": {
-              "feature": 1,
-              "threshold": 4569.5
+              "feature": 18,
+              "threshold": 1.9661353879497452
             },
             "ordinal_split": {
               "feature": 0,
               "split": []
             },
             "categoric_split": {
-              "feature": 1,
+              "feature": 18,
               "split": [
                 false
               ]
@@ -10501,25 +10513,25 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           },
           "split_hyperplane": {
             "standardized_weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "threshold": 0.0,
             "weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "complexity": 0.0
           },
           "missingdatamode": "NONE",
-          "raw_error": 227.1710462453991,
+          "raw_error": 242.1283464971266,
           "baseline_error": 264.9214659685863,
           "subtree_complexity": 3.0,
           "n_node_samples": 3438,
           "weighted_n_node_samples": 3438.0,
-          "orig_raw_error": 227.1710462453991,
+          "orig_raw_error": 242.1283464971266,
           "orig_baseline_error": 264.9214659685863,
           "dirty": false,
           "fit": {
@@ -10538,13 +10550,13 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
             ],
             "logistic_fit": {
               "beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
               "offset": null,
               "standardized_beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
@@ -10562,15 +10574,15 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           "split_type": "MIXED",
           "split_mixed": {
             "parallel_split": {
-              "feature": 19,
-              "threshold": 1.9661353879497452
+              "feature": 34,
+              "threshold": 760.0
             },
             "ordinal_split": {
               "feature": 0,
               "split": []
             },
             "categoric_split": {
-              "feature": 19,
+              "feature": 34,
               "split": [
                 false
               ]
@@ -10580,55 +10592,55 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           },
           "split_hyperplane": {
             "standardized_weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "threshold": 0.0,
             "weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "complexity": 0.0
           },
           "missingdatamode": "NONE",
-          "raw_error": 206.24081368725956,
-          "baseline_error": 216.59285503395313,
+          "raw_error": 168.86823767391098,
+          "baseline_error": 171.06908627825533,
           "subtree_complexity": 1.0,
-          "n_node_samples": 3387,
-          "weighted_n_node_samples": 3387.0,
-          "orig_raw_error": 206.24081368725956,
-          "orig_baseline_error": 216.59285503395313,
+          "n_node_samples": 3141,
+          "weighted_n_node_samples": 3141.0,
+          "orig_raw_error": 168.86823767391098,
+          "orig_baseline_error": 171.06908627825533,
           "dirty": false,
           "fit": {
             "class": 1,
             "weighted_probs": [
-              0.9669323885444346,
-              0.033067611455565395
+              0.9719834447628144,
+              0.02801655523718561
             ],
             "probs": [
-              0.9669323885444346,
-              0.033067611455565395
+              0.9719834447628144,
+              0.02801655523718561
             ],
             "sizes": [
-              3275,
-              112
+              3053,
+              88
             ],
             "logistic_fit": {
               "beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
               "offset": null,
               "standardized_beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
               "constant_offset": null,
-              "constant_error": 216.59285503395313
+              "constant_error": 171.06908627825533
             }
           }
         },
@@ -10659,55 +10671,55 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           },
           "split_hyperplane": {
             "standardized_weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "threshold": 0.0,
             "weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "complexity": 0.0
           },
           "missingdatamode": "NONE",
-          "raw_error": 127.2680245716133,
-          "baseline_error": 127.2680245716133,
+          "raw_error": 32.16568047337279,
+          "baseline_error": 32.16568047337279,
           "subtree_complexity": 0.0,
-          "n_node_samples": 3093,
-          "weighted_n_node_samples": 3093.0,
-          "orig_raw_error": 127.2680245716133,
-          "orig_baseline_error": 127.2680245716133,
+          "n_node_samples": 169,
+          "weighted_n_node_samples": 169.0,
+          "orig_raw_error": 32.16568047337279,
+          "orig_baseline_error": 32.16568047337279,
           "dirty": true,
           "fit": {
             "class": 1,
             "weighted_probs": [
-              0.9789848043970255,
-              0.02101519560297446
+              0.893491124260355,
+              0.10650887573964497
             ],
             "probs": [
-              0.9789848043970255,
-              0.02101519560297446
+              0.893491124260355,
+              0.10650887573964497
             ],
             "sizes": [
-              3028,
-              65
+              151,
+              18
             ],
             "logistic_fit": {
               "beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
               "offset": null,
               "standardized_beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
               "constant_offset": null,
-              "constant_error": 127.2680245716133
+              "constant_error": 32.16568047337279
             }
           }
         },
@@ -10738,55 +10750,55 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           },
           "split_hyperplane": {
             "standardized_weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "threshold": 0.0,
             "weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "complexity": 0.0
           },
           "missingdatamode": "NONE",
-          "raw_error": 78.97278911564626,
-          "baseline_error": 78.97278911564626,
+          "raw_error": 136.7025572005382,
+          "baseline_error": 136.7025572005382,
           "subtree_complexity": 0.0,
-          "n_node_samples": 294,
-          "weighted_n_node_samples": 294.0,
-          "orig_raw_error": 78.97278911564626,
-          "orig_baseline_error": 78.97278911564626,
+          "n_node_samples": 2972,
+          "weighted_n_node_samples": 2972.0,
+          "orig_raw_error": 136.7025572005382,
+          "orig_baseline_error": 136.7025572005382,
           "dirty": true,
           "fit": {
             "class": 1,
             "weighted_probs": [
-              0.8401360544217688,
-              0.1598639455782313
+              0.9764468371467026,
+              0.023553162853297442
             ],
             "probs": [
-              0.8401360544217688,
-              0.1598639455782313
+              0.9764468371467026,
+              0.023553162853297442
             ],
             "sizes": [
-              247,
-              47
+              2902,
+              70
             ],
             "logistic_fit": {
               "beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
               "offset": null,
               "standardized_beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
               "constant_offset": null,
-              "constant_error": 78.97278911564626
+              "constant_error": 136.7025572005382
             }
           }
         },
@@ -10799,15 +10811,15 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           "split_type": "MIXED",
           "split_mixed": {
             "parallel_split": {
-              "feature": 19,
-              "threshold": 1.9293888686527247
+              "feature": 15,
+              "threshold": 7.0
             },
             "ordinal_split": {
               "feature": 0,
               "split": []
             },
             "categoric_split": {
-              "feature": 19,
+              "feature": 15,
               "split": [
                 false
               ]
@@ -10817,55 +10829,55 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           },
           "split_hyperplane": {
             "standardized_weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "threshold": 0.0,
             "weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "complexity": 0.0
           },
           "missingdatamode": "NONE",
-          "raw_error": 20.930232558139537,
-          "baseline_error": 25.49019607843137,
+          "raw_error": 73.26010882321563,
+          "baseline_error": 83.16498316498317,
           "subtree_complexity": 1.0,
-          "n_node_samples": 51,
-          "weighted_n_node_samples": 51.0,
-          "orig_raw_error": 20.930232558139537,
-          "orig_baseline_error": 25.49019607843137,
+          "n_node_samples": 297,
+          "weighted_n_node_samples": 297.0,
+          "orig_raw_error": 73.26010882321563,
+          "orig_baseline_error": 83.16498316498317,
           "dirty": false,
           "fit": {
-            "class": 2,
+            "class": 1,
             "weighted_probs": [
-              0.49019607843137253,
-              0.5098039215686274
+              0.8316498316498316,
+              0.16835016835016836
             ],
             "probs": [
-              0.49019607843137253,
-              0.5098039215686274
+              0.8316498316498316,
+              0.16835016835016836
             ],
             "sizes": [
-              25,
-              26
+              247,
+              50
             ],
             "logistic_fit": {
               "beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
               "offset": null,
               "standardized_beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
               "constant_offset": null,
-              "constant_error": 25.49019607843137
+              "constant_error": 83.16498316498317
             }
           }
         },
@@ -10896,55 +10908,55 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           },
           "split_hyperplane": {
             "standardized_weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "threshold": 0.0,
             "weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "complexity": 0.0
           },
           "missingdatamode": "NONE",
-          "raw_error": 20.930232558139537,
-          "baseline_error": 20.930232558139537,
+          "raw_error": 42.065934065934066,
+          "baseline_error": 42.065934065934066,
           "subtree_complexity": 0.0,
-          "n_node_samples": 43,
-          "weighted_n_node_samples": 43.0,
-          "orig_raw_error": 20.930232558139537,
-          "orig_baseline_error": 20.930232558139537,
+          "n_node_samples": 91,
+          "weighted_n_node_samples": 91.0,
+          "orig_raw_error": 42.065934065934066,
+          "orig_baseline_error": 42.065934065934066,
           "dirty": true,
           "fit": {
             "class": 1,
             "weighted_probs": [
-              0.5813953488372093,
-              0.4186046511627907
+              0.6373626373626373,
+              0.3626373626373626
             ],
             "probs": [
-              0.5813953488372093,
-              0.4186046511627907
+              0.6373626373626373,
+              0.3626373626373626
             ],
             "sizes": [
-              25,
-              18
+              58,
+              33
             ],
             "logistic_fit": {
               "beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
               "offset": null,
               "standardized_beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
               "constant_offset": null,
-              "constant_error": 20.930232558139537
+              "constant_error": 42.065934065934066
             }
           }
         },
@@ -10975,55 +10987,55 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           },
           "split_hyperplane": {
             "standardized_weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "threshold": 0.0,
             "weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "complexity": 0.0
           },
           "missingdatamode": "NONE",
-          "raw_error": 0.0,
-          "baseline_error": 0.0,
+          "raw_error": 31.19417475728156,
+          "baseline_error": 31.19417475728156,
           "subtree_complexity": 0.0,
-          "n_node_samples": 8,
-          "weighted_n_node_samples": 8.0,
-          "orig_raw_error": 0.0,
-          "orig_baseline_error": 0.0,
+          "n_node_samples": 206,
+          "weighted_n_node_samples": 206.0,
+          "orig_raw_error": 31.19417475728156,
+          "orig_baseline_error": 31.19417475728156,
           "dirty": true,
           "fit": {
-            "class": 2,
+            "class": 1,
             "weighted_probs": [
-              0.0,
-              1.0
+              0.9174757281553398,
+              0.0825242718446602
             ],
             "probs": [
-              0.0,
-              1.0
+              0.9174757281553398,
+              0.0825242718446602
             ],
             "sizes": [
-              0,
-              8
+              189,
+              17
             ],
             "logistic_fit": {
               "beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
               "offset": null,
               "standardized_beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
               "constant_offset": null,
-              "constant_error": 0.0
+              "constant_error": 31.19417475728156
             }
           }
         },
@@ -11036,7 +11048,7 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           "split_type": "MIXED",
           "split_mixed": {
             "parallel_split": {
-              "feature": 24,
+              "feature": 23,
               "threshold": 0.5
             },
             "ordinal_split": {
@@ -11044,7 +11056,7 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
               "split": []
             },
             "categoric_split": {
-              "feature": 24,
+              "feature": 23,
               "split": [
                 false
               ]
@@ -11054,25 +11066,25 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           },
           "split_hyperplane": {
             "standardized_weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "threshold": 0.0,
             "weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "complexity": 0.0
           },
           "missingdatamode": "NONE",
-          "raw_error": 2653.670200694288,
+          "raw_error": 2673.6722323823724,
           "baseline_error": 3875.996760696449,
           "subtree_complexity": 15.0,
           "n_node_samples": 22227,
           "weighted_n_node_samples": 22227.0,
-          "orig_raw_error": 2653.670200694288,
+          "orig_raw_error": 2673.6722323823724,
           "orig_baseline_error": 3875.996760696449,
           "dirty": false,
           "fit": {
@@ -11091,13 +11103,13 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
             ],
             "logistic_fit": {
               "beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
               "offset": null,
               "standardized_beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
@@ -11115,7 +11127,7 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           "split_type": "MIXED",
           "split_mixed": {
             "parallel_split": {
-              "feature": 35,
+              "feature": 34,
               "threshold": 545.5
             },
             "ordinal_split": {
@@ -11123,7 +11135,7 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
               "split": []
             },
             "categoric_split": {
-              "feature": 35,
+              "feature": 34,
               "split": [
                 false
               ]
@@ -11133,13 +11145,13 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           },
           "split_hyperplane": {
             "standardized_weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "threshold": 0.0,
             "weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
@@ -11170,13 +11182,13 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
             ],
             "logistic_fit": {
               "beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
               "offset": null,
               "standardized_beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
@@ -11194,7 +11206,7 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           "split_type": "MIXED",
           "split_mixed": {
             "parallel_split": {
-              "feature": 23,
+              "feature": 22,
               "threshold": 0.5
             },
             "ordinal_split": {
@@ -11202,7 +11214,7 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
               "split": []
             },
             "categoric_split": {
-              "feature": 23,
+              "feature": 22,
               "split": [
                 false
               ]
@@ -11212,13 +11224,13 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           },
           "split_hyperplane": {
             "standardized_weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "threshold": 0.0,
             "weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
@@ -11249,13 +11261,13 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
             ],
             "logistic_fit": {
               "beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
               "offset": null,
               "standardized_beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
@@ -11273,7 +11285,7 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           "split_type": "MIXED",
           "split_mixed": {
             "parallel_split": {
-              "feature": 28,
+              "feature": 27,
               "threshold": 0.5
             },
             "ordinal_split": {
@@ -11281,7 +11293,7 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
               "split": []
             },
             "categoric_split": {
-              "feature": 28,
+              "feature": 27,
               "split": [
                 false
               ]
@@ -11291,13 +11303,13 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           },
           "split_hyperplane": {
             "standardized_weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "threshold": 0.0,
             "weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
@@ -11328,13 +11340,13 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
             ],
             "logistic_fit": {
               "beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
               "offset": null,
               "standardized_beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
@@ -11370,13 +11382,13 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           },
           "split_hyperplane": {
             "standardized_weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "threshold": 0.0,
             "weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
@@ -11407,13 +11419,13 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
             ],
             "logistic_fit": {
               "beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
               "offset": null,
               "standardized_beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
@@ -11449,13 +11461,13 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           },
           "split_hyperplane": {
             "standardized_weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "threshold": 0.0,
             "weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
@@ -11486,13 +11498,13 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
             ],
             "logistic_fit": {
               "beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
               "offset": null,
               "standardized_beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
@@ -11510,7 +11522,7 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           "split_type": "MIXED",
           "split_mixed": {
             "parallel_split": {
-              "feature": 20,
+              "feature": 19,
               "threshold": 2.5
             },
             "ordinal_split": {
@@ -11518,7 +11530,7 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
               "split": []
             },
             "categoric_split": {
-              "feature": 20,
+              "feature": 19,
               "split": [
                 false
               ]
@@ -11528,13 +11540,13 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           },
           "split_hyperplane": {
             "standardized_weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "threshold": 0.0,
             "weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
@@ -11565,13 +11577,13 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
             ],
             "logistic_fit": {
               "beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
               "offset": null,
               "standardized_beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
@@ -11607,13 +11619,13 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           },
           "split_hyperplane": {
             "standardized_weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "threshold": 0.0,
             "weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
@@ -11644,13 +11656,13 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
             ],
             "logistic_fit": {
               "beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
               "offset": null,
               "standardized_beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
@@ -11686,13 +11698,13 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           },
           "split_hyperplane": {
             "standardized_weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "threshold": 0.0,
             "weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
@@ -11723,13 +11735,13 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
             ],
             "logistic_fit": {
               "beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
               "offset": null,
               "standardized_beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
@@ -11747,7 +11759,7 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           "split_type": "MIXED",
           "split_mixed": {
             "parallel_split": {
-              "feature": 34,
+              "feature": 33,
               "threshold": 0.5
             },
             "ordinal_split": {
@@ -11755,7 +11767,7 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
               "split": []
             },
             "categoric_split": {
-              "feature": 34,
+              "feature": 33,
               "split": [
                 false
               ]
@@ -11765,13 +11777,13 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           },
           "split_hyperplane": {
             "standardized_weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "threshold": 0.0,
             "weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
@@ -11802,13 +11814,13 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
             ],
             "logistic_fit": {
               "beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
               "offset": null,
               "standardized_beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
@@ -11826,7 +11838,7 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           "split_type": "MIXED",
           "split_mixed": {
             "parallel_split": {
-              "feature": 35,
+              "feature": 34,
               "threshold": 624.5
             },
             "ordinal_split": {
@@ -11834,7 +11846,7 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
               "split": []
             },
             "categoric_split": {
-              "feature": 35,
+              "feature": 34,
               "split": [
                 false
               ]
@@ -11844,13 +11856,13 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           },
           "split_hyperplane": {
             "standardized_weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "threshold": 0.0,
             "weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
@@ -11881,13 +11893,13 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
             ],
             "logistic_fit": {
               "beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
               "offset": null,
               "standardized_beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
@@ -11923,13 +11935,13 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           },
           "split_hyperplane": {
             "standardized_weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "threshold": 0.0,
             "weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
@@ -11960,13 +11972,13 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
             ],
             "logistic_fit": {
               "beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
               "offset": null,
               "standardized_beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
@@ -12002,13 +12014,13 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           },
           "split_hyperplane": {
             "standardized_weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "threshold": 0.0,
             "weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
@@ -12039,13 +12051,13 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
             ],
             "logistic_fit": {
               "beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
               "offset": null,
               "standardized_beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
@@ -12063,7 +12075,7 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           "split_type": "MIXED",
           "split_mixed": {
             "parallel_split": {
-              "feature": 19,
+              "feature": 18,
               "threshold": 1.9057875029352966
             },
             "ordinal_split": {
@@ -12071,7 +12083,7 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
               "split": []
             },
             "categoric_split": {
-              "feature": 19,
+              "feature": 18,
               "split": [
                 false
               ]
@@ -12081,13 +12093,13 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           },
           "split_hyperplane": {
             "standardized_weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "threshold": 0.0,
             "weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
@@ -12118,13 +12130,13 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
             ],
             "logistic_fit": {
               "beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
               "offset": null,
               "standardized_beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
@@ -12160,13 +12172,13 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           },
           "split_hyperplane": {
             "standardized_weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "threshold": 0.0,
             "weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
@@ -12197,13 +12209,13 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
             ],
             "logistic_fit": {
               "beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
               "offset": null,
               "standardized_beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
@@ -12239,13 +12251,13 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           },
           "split_hyperplane": {
             "standardized_weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "threshold": 0.0,
             "weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
@@ -12276,13 +12288,13 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
             ],
             "logistic_fit": {
               "beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
               "offset": null,
               "standardized_beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
@@ -12300,7 +12312,7 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           "split_type": "MIXED",
           "split_mixed": {
             "parallel_split": {
-              "feature": 20,
+              "feature": 19,
               "threshold": 2.5
             },
             "ordinal_split": {
@@ -12308,7 +12320,7 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
               "split": []
             },
             "categoric_split": {
-              "feature": 20,
+              "feature": 19,
               "split": [
                 false
               ]
@@ -12318,25 +12330,25 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           },
           "split_hyperplane": {
             "standardized_weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "threshold": 0.0,
             "weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "complexity": 0.0
           },
           "missingdatamode": "NONE",
-          "raw_error": 368.61785781225626,
+          "raw_error": 388.61988950034083,
           "baseline_error": 465.3345898004427,
           "subtree_complexity": 7.0,
           "n_node_samples": 9020,
           "weighted_n_node_samples": 9020.0,
-          "orig_raw_error": 368.61785781225626,
+          "orig_raw_error": 388.61988950034083,
           "orig_baseline_error": 465.3345898004427,
           "dirty": false,
           "fit": {
@@ -12355,13 +12367,13 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
             ],
             "logistic_fit": {
               "beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
               "offset": null,
               "standardized_beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
@@ -12379,7 +12391,7 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           "split_type": "MIXED",
           "split_mixed": {
             "parallel_split": {
-              "feature": 5,
+              "feature": 4,
               "threshold": 2.5
             },
             "ordinal_split": {
@@ -12387,7 +12399,7 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
               "split": []
             },
             "categoric_split": {
-              "feature": 5,
+              "feature": 4,
               "split": [
                 false
               ]
@@ -12397,25 +12409,25 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           },
           "split_hyperplane": {
             "standardized_weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "threshold": 0.0,
             "weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "complexity": 0.0
           },
           "missingdatamode": "NONE",
-          "raw_error": 206.7437229437229,
+          "raw_error": 215.12705627705623,
           "baseline_error": 274.1296551724138,
           "subtree_complexity": 3.0,
           "n_node_samples": 2175,
           "weighted_n_node_samples": 2175.0,
-          "orig_raw_error": 206.7437229437229,
+          "orig_raw_error": 215.12705627705623,
           "orig_baseline_error": 274.1296551724138,
           "dirty": false,
           "fit": {
@@ -12434,13 +12446,13 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
             ],
             "logistic_fit": {
               "beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
               "offset": null,
               "standardized_beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
@@ -12458,7 +12470,7 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           "split_type": "MIXED",
           "split_mixed": {
             "parallel_split": {
-              "feature": 14,
+              "feature": 13,
               "threshold": 1.5
             },
             "ordinal_split": {
@@ -12466,7 +12478,7 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
               "split": []
             },
             "categoric_split": {
-              "feature": 14,
+              "feature": 13,
               "split": [
                 false
               ]
@@ -12476,13 +12488,13 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           },
           "split_hyperplane": {
             "standardized_weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "threshold": 0.0,
             "weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
@@ -12513,13 +12525,13 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
             ],
             "logistic_fit": {
               "beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
               "offset": null,
               "standardized_beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
@@ -12555,13 +12567,13 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           },
           "split_hyperplane": {
             "standardized_weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "threshold": 0.0,
             "weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
@@ -12592,13 +12604,13 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
             ],
             "logistic_fit": {
               "beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
               "offset": null,
               "standardized_beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
@@ -12634,13 +12646,13 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           },
           "split_hyperplane": {
             "standardized_weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "threshold": 0.0,
             "weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
@@ -12671,13 +12683,13 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
             ],
             "logistic_fit": {
               "beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
               "offset": null,
               "standardized_beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
@@ -12695,15 +12707,15 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           "split_type": "MIXED",
           "split_mixed": {
             "parallel_split": {
-              "feature": 35,
-              "threshold": 682.5
+              "feature": 34,
+              "threshold": 535.0
             },
             "ordinal_split": {
               "feature": 0,
               "split": []
             },
             "categoric_split": {
-              "feature": 35,
+              "feature": 34,
               "split": [
                 false
               ]
@@ -12713,25 +12725,25 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           },
           "split_hyperplane": {
             "standardized_weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "threshold": 0.0,
             "weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "complexity": 0.0
           },
           "missingdatamode": "NONE",
-          "raw_error": 1.9333333333333336,
+          "raw_error": 10.316666666666668,
           "baseline_error": 19.772727272727273,
           "subtree_complexity": 1.0,
           "n_node_samples": 44,
           "weighted_n_node_samples": 44.0,
-          "orig_raw_error": 1.9333333333333336,
+          "orig_raw_error": 10.316666666666668,
           "orig_baseline_error": 19.772727272727273,
           "dirty": false,
           "fit": {
@@ -12750,13 +12762,13 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
             ],
             "logistic_fit": {
               "beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
               "offset": null,
               "standardized_beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
@@ -12792,55 +12804,55 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           },
           "split_hyperplane": {
             "standardized_weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "threshold": 0.0,
             "weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "complexity": 0.0
           },
           "missingdatamode": "NONE",
-          "raw_error": 1.9333333333333336,
-          "baseline_error": 1.9333333333333336,
+          "raw_error": 1.9166666666666679,
+          "baseline_error": 1.9166666666666679,
           "subtree_complexity": 0.0,
-          "n_node_samples": 30,
-          "weighted_n_node_samples": 30.0,
-          "orig_raw_error": 1.9333333333333336,
-          "orig_baseline_error": 1.9333333333333336,
+          "n_node_samples": 24,
+          "weighted_n_node_samples": 24.0,
+          "orig_raw_error": 1.9166666666666679,
+          "orig_baseline_error": 1.9166666666666679,
           "dirty": true,
           "fit": {
             "class": 2,
             "weighted_probs": [
-              0.03333333333333333,
-              0.9666666666666667
+              0.041666666666666664,
+              0.9583333333333334
             ],
             "probs": [
-              0.03333333333333333,
-              0.9666666666666667
+              0.041666666666666664,
+              0.9583333333333334
             ],
             "sizes": [
               1,
-              29
+              23
             ],
             "logistic_fit": {
               "beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
               "offset": null,
               "standardized_beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
               "constant_offset": null,
-              "constant_error": 1.9333333333333336
+              "constant_error": 1.9166666666666679
             }
           }
         },
@@ -12871,55 +12883,55 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           },
           "split_hyperplane": {
             "standardized_weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "threshold": 0.0,
             "weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "complexity": 0.0
           },
           "missingdatamode": "NONE",
-          "raw_error": 0.0,
-          "baseline_error": 0.0,
+          "raw_error": 8.4,
+          "baseline_error": 8.4,
           "subtree_complexity": 0.0,
-          "n_node_samples": 14,
-          "weighted_n_node_samples": 14.0,
-          "orig_raw_error": 0.0,
-          "orig_baseline_error": 0.0,
+          "n_node_samples": 20,
+          "weighted_n_node_samples": 20.0,
+          "orig_raw_error": 8.4,
+          "orig_baseline_error": 8.4,
           "dirty": true,
           "fit": {
             "class": 1,
             "weighted_probs": [
-              1.0,
-              0.0
+              0.7,
+              0.3
             ],
             "probs": [
-              1.0,
-              0.0
+              0.7,
+              0.3
             ],
             "sizes": [
               14,
-              0
+              6
             ],
             "logistic_fit": {
               "beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
               "offset": null,
               "standardized_beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
               "constant_offset": null,
-              "constant_error": 0.0
+              "constant_error": 8.4
             }
           }
         },
@@ -12932,15 +12944,15 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           "split_type": "MIXED",
           "split_mixed": {
             "parallel_split": {
-              "feature": 4,
-              "threshold": 16.03482162770545
+              "feature": 33,
+              "threshold": 0.5
             },
             "ordinal_split": {
               "feature": 0,
               "split": []
             },
             "categoric_split": {
-              "feature": 4,
+              "feature": 33,
               "split": [
                 false
               ]
@@ -12950,25 +12962,25 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           },
           "split_hyperplane": {
             "standardized_weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "threshold": 0.0,
             "weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "complexity": 0.0
           },
           "missingdatamode": "NONE",
-          "raw_error": 161.87413486853333,
+          "raw_error": 173.49283322328463,
           "baseline_error": 181.52695398100786,
           "subtree_complexity": 3.0,
           "n_node_samples": 6845,
           "weighted_n_node_samples": 6845.0,
-          "orig_raw_error": 161.87413486853333,
+          "orig_raw_error": 173.49283322328463,
           "orig_baseline_error": 181.52695398100786,
           "dirty": false,
           "fit": {
@@ -12987,13 +12999,13 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
             ],
             "logistic_fit": {
               "beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
               "offset": null,
               "standardized_beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
@@ -13011,15 +13023,15 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           "split_type": "MIXED",
           "split_mixed": {
             "parallel_split": {
-              "feature": 3,
-              "threshold": 38.5
+              "feature": 17,
+              "threshold": 2.4999999999999996
             },
             "ordinal_split": {
               "feature": 0,
               "split": []
             },
             "categoric_split": {
-              "feature": 3,
+              "feature": 17,
               "split": [
                 false
               ]
@@ -13029,55 +13041,55 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           },
           "split_hyperplane": {
             "standardized_weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "threshold": 0.0,
             "weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "complexity": 0.0
           },
           "missingdatamode": "NONE",
-          "raw_error": 18.89982110912344,
-          "baseline_error": 33.27750000000003,
+          "raw_error": 139.06841319886462,
+          "baseline_error": 140.49724251006137,
           "subtree_complexity": 1.0,
-          "n_node_samples": 800,
-          "weighted_n_node_samples": 800.0,
-          "orig_raw_error": 18.89982110912344,
-          "orig_baseline_error": 33.27750000000003,
+          "n_node_samples": 6709,
+          "weighted_n_node_samples": 6709.0,
+          "orig_raw_error": 139.06841319886462,
+          "orig_baseline_error": 140.49724251006137,
           "dirty": false,
           "fit": {
             "class": 1,
             "weighted_probs": [
-              0.97875,
-              0.02125
+              0.9894172007750782,
+              0.010582799224921747
             ],
             "probs": [
-              0.97875,
-              0.02125
+              0.9894172007750782,
+              0.010582799224921747
             ],
             "sizes": [
-              783,
-              17
+              6638,
+              71
             ],
             "logistic_fit": {
               "beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
               "offset": null,
               "standardized_beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
               "constant_offset": null,
-              "constant_error": 33.27750000000003
+              "constant_error": 140.49724251006137
             }
           }
         },
@@ -13108,55 +13120,55 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           },
           "split_hyperplane": {
             "standardized_weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "threshold": 0.0,
             "weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "complexity": 0.0
           },
           "missingdatamode": "NONE",
-          "raw_error": 5.976744186046517,
-          "baseline_error": 5.976744186046517,
+          "raw_error": 53.722285714286045,
+          "baseline_error": 53.722285714286045,
           "subtree_complexity": 0.0,
-          "n_node_samples": 774,
-          "weighted_n_node_samples": 774.0,
-          "orig_raw_error": 5.976744186046517,
-          "orig_baseline_error": 5.976744186046517,
+          "n_node_samples": 5250,
+          "weighted_n_node_samples": 5250.0,
+          "orig_raw_error": 53.722285714286045,
+          "orig_baseline_error": 53.722285714286045,
           "dirty": true,
           "fit": {
             "class": 1,
             "weighted_probs": [
-              0.9961240310077519,
-              0.003875968992248062
+              0.9948571428571429,
+              0.005142857142857143
             ],
             "probs": [
-              0.9961240310077519,
-              0.003875968992248062
+              0.9948571428571429,
+              0.005142857142857143
             ],
             "sizes": [
-              771,
-              3
+              5223,
+              27
             ],
             "logistic_fit": {
               "beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
               "offset": null,
               "standardized_beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
               "constant_offset": null,
-              "constant_error": 5.976744186046517
+              "constant_error": 53.722285714286045
             }
           }
         },
@@ -13187,55 +13199,55 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           },
           "split_hyperplane": {
             "standardized_weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "threshold": 0.0,
             "weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "complexity": 0.0
           },
           "missingdatamode": "NONE",
-          "raw_error": 12.923076923076923,
-          "baseline_error": 12.923076923076923,
+          "raw_error": 85.34612748457857,
+          "baseline_error": 85.34612748457857,
           "subtree_complexity": 0.0,
-          "n_node_samples": 26,
-          "weighted_n_node_samples": 26.0,
-          "orig_raw_error": 12.923076923076923,
-          "orig_baseline_error": 12.923076923076923,
+          "n_node_samples": 1459,
+          "weighted_n_node_samples": 1459.0,
+          "orig_raw_error": 85.34612748457857,
+          "orig_baseline_error": 85.34612748457857,
           "dirty": true,
           "fit": {
-            "class": 2,
+            "class": 1,
             "weighted_probs": [
-              0.46153846153846156,
-              0.5384615384615384
+              0.969842357779301,
+              0.03015764222069911
             ],
             "probs": [
-              0.46153846153846156,
-              0.5384615384615384
+              0.969842357779301,
+              0.03015764222069911
             ],
             "sizes": [
-              12,
-              14
+              1415,
+              44
             ],
             "logistic_fit": {
               "beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
               "offset": null,
               "standardized_beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
               "constant_offset": null,
-              "constant_error": 12.923076923076923
+              "constant_error": 85.34612748457857
             }
           }
         },
@@ -13248,15 +13260,15 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           "split_type": "MIXED",
           "split_mixed": {
             "parallel_split": {
-              "feature": 34,
-              "threshold": 0.5
+              "feature": 18,
+              "threshold": 1.4842414742769674
             },
             "ordinal_split": {
               "feature": 0,
               "split": []
             },
             "categoric_split": {
-              "feature": 34,
+              "feature": 18,
               "split": [
                 false
               ]
@@ -13266,55 +13278,55 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           },
           "split_hyperplane": {
             "standardized_weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "threshold": 0.0,
             "weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "complexity": 0.0
           },
           "missingdatamode": "NONE",
-          "raw_error": 142.97431375940988,
-          "baseline_error": 148.13895781637711,
+          "raw_error": 34.424420024420016,
+          "baseline_error": 35.51470588235294,
           "subtree_complexity": 1.0,
-          "n_node_samples": 6045,
-          "weighted_n_node_samples": 6045.0,
-          "orig_raw_error": 142.97431375940988,
-          "orig_baseline_error": 148.13895781637711,
+          "n_node_samples": 136,
+          "weighted_n_node_samples": 136.0,
+          "orig_raw_error": 34.424420024420016,
+          "orig_baseline_error": 35.51470588235294,
           "dirty": false,
           "fit": {
             "class": 1,
             "weighted_probs": [
-              0.9875930521091811,
-              0.01240694789081886
+              0.8455882352941176,
+              0.15441176470588236
             ],
             "probs": [
-              0.9875930521091811,
-              0.01240694789081886
+              0.8455882352941176,
+              0.15441176470588236
             ],
             "sizes": [
-              5970,
-              75
+              115,
+              21
             ],
             "logistic_fit": {
               "beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
               "offset": null,
               "standardized_beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
               "constant_offset": null,
-              "constant_error": 148.13895781637711
+              "constant_error": 35.51470588235294
             }
           }
         },
@@ -13345,55 +13357,55 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           },
           "split_hyperplane": {
             "standardized_weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "threshold": 0.0,
             "weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "complexity": 0.0
           },
           "missingdatamode": "NONE",
-          "raw_error": 110.9412559081702,
-          "baseline_error": 110.9412559081702,
+          "raw_error": 16.622222222222224,
+          "baseline_error": 16.622222222222224,
           "subtree_complexity": 0.0,
-          "n_node_samples": 5924,
-          "weighted_n_node_samples": 5924.0,
-          "orig_raw_error": 110.9412559081702,
-          "orig_baseline_error": 110.9412559081702,
+          "n_node_samples": 45,
+          "weighted_n_node_samples": 45.0,
+          "orig_raw_error": 16.622222222222224,
+          "orig_baseline_error": 16.622222222222224,
           "dirty": true,
           "fit": {
             "class": 1,
             "weighted_probs": [
-              0.9905469277515192,
-              0.009453072248480757
+              0.7555555555555555,
+              0.24444444444444444
             ],
             "probs": [
-              0.9905469277515192,
-              0.009453072248480757
+              0.7555555555555555,
+              0.24444444444444444
             ],
             "sizes": [
-              5868,
-              56
+              34,
+              11
             ],
             "logistic_fit": {
               "beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
               "offset": null,
               "standardized_beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
               "constant_offset": null,
-              "constant_error": 110.9412559081702
+              "constant_error": 16.622222222222224
             }
           }
         },
@@ -13424,55 +13436,55 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           },
           "split_hyperplane": {
             "standardized_weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "threshold": 0.0,
             "weights": {
-              "n": 35,
+              "n": 34,
               "nzval": [],
               "nzind": []
             },
             "complexity": 0.0
           },
           "missingdatamode": "NONE",
-          "raw_error": 32.033057851239676,
-          "baseline_error": 32.033057851239676,
+          "raw_error": 17.802197802197796,
+          "baseline_error": 17.802197802197796,
           "subtree_complexity": 0.0,
-          "n_node_samples": 121,
-          "weighted_n_node_samples": 121.0,
-          "orig_raw_error": 32.033057851239676,
-          "orig_baseline_error": 32.033057851239676,
+          "n_node_samples": 91,
+          "weighted_n_node_samples": 91.0,
+          "orig_raw_error": 17.802197802197796,
+          "orig_baseline_error": 17.802197802197796,
           "dirty": true,
           "fit": {
             "class": 1,
             "weighted_probs": [
-              0.8429752066115702,
-              0.15702479338842976
+              0.8901098901098901,
+              0.10989010989010989
             ],
             "probs": [
-              0.8429752066115702,
-              0.15702479338842976
+              0.8901098901098901,
+              0.10989010989010989
             ],
             "sizes": [
-              102,
-              19
+              81,
+              10
             ],
             "logistic_fit": {
               "beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
               "offset": null,
               "standardized_beta": {
-                "n": 35,
+                "n": 34,
                 "nzval": [],
                 "nzind": []
               },
               "constant_offset": null,
-              "constant_error": 32.033057851239676
+              "constant_error": 17.802197802197796
             }
           }
         }
@@ -13483,9 +13495,8 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
       "data": {
         "features": {
           "n_samples": 0,
-          "n_features": 35,
+          "n_features": 34,
           "feature_names": [
-            "prompt_id",
             "inst_n_numbers",
             "inst_range",
             "inst_std",
@@ -13555,11 +13566,9 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
             [],
             [],
             [],
-            [],
             []
           ],
           "X_numeric_means": [
-            2360.767936471401,
             3.511612383473357,
             53.48868684543676,
             26.083241470952373,
@@ -13595,10 +13604,9 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
             0.02805846472551502,
             617.3024053400852
           ],
-          "n_numeric_features": 35,
-          "n_numeric_orig_features": 35,
+          "n_numeric_features": 34,
+          "n_numeric_orig_features": 34,
           "X_mins": [
-            0.0,
             3.0,
             1.0,
             0.5773502691896257,
@@ -13635,7 +13643,6 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
             35.0
           ],
           "X_maxs": [
-            5812.0,
             4.0,
             97.0,
             54.30776494511014,
@@ -13705,8 +13712,7 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
             31,
             32,
             33,
-            34,
-            35
+            34
           ],
           "numeric_feature_map": {
             "1": 1,
@@ -13742,8 +13748,7 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
             "31": 31,
             "32": 32,
             "33": 33,
-            "34": 34,
-            "35": 35
+            "34": 34
           },
           "X_ordinal": [],
           "X_ordinal_medians": [],
@@ -13754,7 +13759,6 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           "ordinal_features": [],
           "ordinal_feature_map": {},
           "X_categoric": [
-            [],
             [],
             [],
             [],
@@ -13824,11 +13828,9 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
             1,
             1,
             1,
-            1,
             1
           ],
           "n_categoric_levels": [
-            1,
             1,
             1,
             1,
@@ -13866,52 +13868,43 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           ],
           "n_max_categoric_levels": 1,
           "onehot_start_index": [
-            35,
-            35,
-            35,
-            35,
-            35,
-            35,
-            35,
-            35,
-            35,
-            35,
-            35,
-            35,
-            35,
-            35,
-            35,
-            35,
-            35,
-            35,
-            35,
-            35,
-            35,
-            35,
-            35,
-            35,
-            35,
-            35,
-            35,
-            35,
-            35,
-            35,
-            35,
-            35,
-            35,
-            35,
-            35,
-            35
+            34,
+            34,
+            34,
+            34,
+            34,
+            34,
+            34,
+            34,
+            34,
+            34,
+            34,
+            34,
+            34,
+            34,
+            34,
+            34,
+            34,
+            34,
+            34,
+            34,
+            34,
+            34,
+            34,
+            34,
+            34,
+            34,
+            34,
+            34,
+            34,
+            34,
+            34,
+            34,
+            34,
+            34,
+            34
           ],
           "categoric_labelmap": [
-            {
-              "levels": [
-                "missing"
-              ],
-              "level_type": {
-                "x": "Any"
-              }
-            },
             {
               "levels": [
                 "missing"
@@ -14189,7 +14182,6 @@ window.hsluv={hsluvToRgb:Q,rgbToHsluv:R,hpluvToRgb:S,rgbToHpluv:T,hsluvToHex:fun
           "missing_per_sample": {},
           "had_missing": false,
           "feature_names_numeric": [
-            "prompt_id",
             "inst_n_numbers",
             "inst_range",
             "inst_std",
@@ -16578,13 +16570,13 @@ var updateTargetQuestion = function (i, info) {
   if (info.question === undefined) {
     loadtree(info);
     while (i <= 0) {
-      $('#target-question-xizU0k7N-' + i).hide();
+      $('#target-question-UbU4Kdb3-' + i).hide();
       i = i + 1;
     }
   } else {
-    $('#target-question-xizU0k7N-' + i).show();
-    $('#target-question-label-xizU0k7N-' + i).html(info.question);
-    var nextTargetQuestion = $('#target-question-select-xizU0k7N-' + i);
+    $('#target-question-UbU4Kdb3-' + i).show();
+    $('#target-question-label-UbU4Kdb3-' + i).html(info.question);
+    var nextTargetQuestion = $('#target-question-select-UbU4Kdb3-' + i);
     nextTargetQuestion.find('option').remove().end();
     info.responses.forEach(function (r) {
       nextTargetQuestion.append('<option>' + r.answer + '</option>');
@@ -16595,11 +16587,11 @@ var updateTargetQuestion = function (i, info) {
 }
 
 var changeHandler = function () {
-  var cur_i = parseInt(this.getAttribute('id').split('select-xizU0k7N-')[1]);
+  var cur_i = parseInt(this.getAttribute('id').split('select-UbU4Kdb3-')[1]);
 
   var info = treeinfo;
   for (var i = 1; i <= cur_i; i++) {
-    response = $('#target-question-select-xizU0k7N-' + i).val();
+    response = $('#target-question-select-UbU4Kdb3-' + i).val();
     info = info.responses.find(function (r) {
         return r.answer == response;
     });
@@ -16609,25 +16601,25 @@ var changeHandler = function () {
   updateTargetQuestion(cur_i + 1, info);
 }
 
-$('.target-question-xizU0k7N').change(changeHandler);
+$('.target-question-UbU4Kdb3').change(changeHandler);
 
 var loadtree = function (info) {
-  tree = new Tree(info, document.querySelector('#treevis-xizU0k7N'))
+  tree = new Tree(info, document.querySelector('#treevis-UbU4Kdb3'))
 };
 updateTargetQuestion(1, treeinfo);
 
 
         // Assign handlers to buttons
-            d3.selectAll("#collapse-xizU0k7N").on('click', function(d) {
+            d3.selectAll("#collapse-UbU4Kdb3").on('click', function(d) {
       collapseChildren(tree.root, true);
       tree.update(tree.root);
     });
-    d3.selectAll("#expand-xizU0k7N").on('click', function(d) {
+    d3.selectAll("#expand-UbU4Kdb3").on('click', function(d) {
       expandChildren(tree.root, true);
       tree.update(tree.root);
     });
-    d3.selectAll("#savepng-xizU0k7N").on('click', function(d) {
-      saveSvgAsPng(document.querySelector('#treevis-xizU0k7N svg'),
+    d3.selectAll("#savepng-UbU4Kdb3").on('click', function(d) {
+      saveSvgAsPng(document.querySelector('#treevis-UbU4Kdb3 svg'),
                    "tree-" + new Date().toISOString() + ".png");
     });
     
@@ -16647,7 +16639,7 @@ updateTargetQuestion(1, treeinfo);
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [11]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-julia"><pre><span></span><span class="c"># ---------------------------------------------------------</span>
@@ -16690,10 +16682,10 @@ updateTargetQuestion(1, treeinfo);
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>
-Train accuracy: 0.9112441017378294
-Test accuracy:  0.8116912092815707
-Test F1-score:  0.7716450216450217
-Test AUC:       0.8696043403139111
+Train accuracy: 0.9080676717689032
+Test accuracy:  0.8063364569388666
+Test F1-score:  0.7755946225439504
+Test AUC:       0.8685141412039106
 
 Done.
 </pre>
