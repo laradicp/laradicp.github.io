@@ -10,7 +10,7 @@ locale                   : "en-US"
 title                    : "Lara Pontes"
 title_separator          : "-"
 name                     : &name "Lara di Cavalcanti Pontes"
-description              : &description "B.S. in Computer Engineering | Research Assistant at LOG UFPB"
+description              : &description "PhD Student at MIT"
 url                      : https://laradicp.github.io # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
 baseurl                  : "" # the subpath of your site, e.g. "/blog"
 repository               : "laradicp.github.io"
@@ -82,12 +82,12 @@ analytics:
 author:
   name             : "Lara di Cavalcanti Pontes"
   avatar           : "profile.jpg"
-  bio              : "B.S. in Computer Engineering | Research Assistant at LOG UFPB"
-  location         : "João Pessoa, Paraíba"
+  bio              : "PhD Student at MIT"
+  location         : "Cambridge, Massachusetts"
   employer         :
   pubmed           : 
   googlescholar    : 
-  email            : "larapontes@eng.ci.ufpb.br"
+  email            : "lpontes@mit.edu"
   researchgate     :  # example: "https://www.researchgate.net/profile/yourprofile"
   uri              :
   bitbucket        :
