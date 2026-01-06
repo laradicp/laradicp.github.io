@@ -8,6 +8,14 @@ redirect_from:
 
 ---
 
+<img src="..images/informs.jpg" width="150"/>&nbsp;&nbsp;&nbsp;&nbsp;[Finalists for the 2024 INFORMS Undergraduate Operations Research Prize](https://www.informs.org/Recognizing-Excellence/Award-Recipients/Lara-Pontes)
+
+---
+
+<img src="..images/informs_presentation.jpeg" width="150"/>&nbsp;&nbsp;&nbsp;&nbsp;[The Maximum Length Car Sequencing Problem presented to the 2024 INFORMS Undergraduate Operations Research Prize](https://www.linkedin.com/feed/update/urn:li:activity:7253870583589818369/)
+
+---
+
 <img src="../images/enic.png" width="150"/>&nbsp;&nbsp;&nbsp;&nbsp;[Young Researcher award recipients of 2022](http://www.ccen.ufpb.br/ccen/contents/noticias/trabalhos-premiados-do-xxx-encontro-de-iniciacao-cientifica-via-propesq-ccen-ufpb)
 
 ---
