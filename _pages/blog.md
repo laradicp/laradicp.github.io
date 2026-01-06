@@ -8,11 +8,11 @@ redirect_from:
 
 ---
 
-<img src="..images/informs.jpg" width="150"/>&nbsp;&nbsp;&nbsp;&nbsp;[Finalists for the 2024 INFORMS Undergraduate Operations Research Prize](https://www.informs.org/Recognizing-Excellence/Award-Recipients/Lara-Pontes)
+<img src="../images/informs.jpg" width="150"/>&nbsp;&nbsp;&nbsp;&nbsp;[Finalists for the 2024 INFORMS Undergraduate Operations Research Prize](https://www.informs.org/Recognizing-Excellence/Award-Recipients/Lara-Pontes)
 
 ---
 
-<img src="..images/informs_presentation.jpeg" width="150"/>&nbsp;&nbsp;&nbsp;&nbsp;[The Maximum Length Car Sequencing Problem presented to the 2024 INFORMS Undergraduate Operations Research Prize](https://www.linkedin.com/feed/update/urn:li:activity:7253870583589818369/)
+<img src="../images/informs_presentation.jpeg" width="150"/>&nbsp;&nbsp;&nbsp;&nbsp;[Max-CSP presented to the 2024 INFORMS Undergraduate Operations Research Prize](https://www.linkedin.com/feed/update/urn:li:activity:7253870583589818369/)
 
 ---
 
